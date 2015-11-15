@@ -26,3 +26,13 @@
 *.exe
 *.out
 *.app
+
+# placeholder files
+buildoutput/*
+!buildoutput/placeholder.txt
+
+SGFrameworkLib/*
+!SGFrameworkLib/placeholder.txt
+
+# qt-creator files
+*.user
