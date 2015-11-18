@@ -8,7 +8,9 @@
 #include "interpolatedrotation.h"
 #include "controllablecamera.h"
 #include "color.h"
-
+#include "trianglemesh.h"
+#include "texture.h"
+#include "simplecube.h"
 #include "ui_dockwidget.h"
 
 Node* initHalbzeitScene();
@@ -47,7 +49,44 @@ void SceneManager::initScenes()
 
 Node *initHalbzeitScene()
 {
-    Node* sonnensystem = new Node();
+    QString path(SRCDIR);
+    Node* sceneRoot = new Node();
 
-    return sonnensystem;
+    Drawable* centerScene = new Drawable(new SimpleCube(.5,.5,.5));
+    Color* color = centerScene->GetProperty<Color>();
+    color->SetValue(1, 0, 0, 1);
+
+
+    Drawable* tor = new Drawable(new TriangleMesh(QString("./../models/fussballtor.obj")));
+    Texture* c = tor->GetProperty<Texture>();
+    c->LoadPicture(QString("./../textures/tortexture.png"));
+
+    Transformation* torPosition = new Transformation();
+    torPosition->Translate(0, -.01, -43.7);
+
+    Drawable* fussball = new Drawable(new TriangleMesh(QString("./../models/fussball.obj")));
+    c = fussball->GetProperty<Texture>();
+    c->LoadPicture(QString("./../textures/fussballtexture.png"));
+
+    Transformation* fussballPosition = new Transformation();
+    fussballPosition->Translate(0, .2, -31.3);
+
+    Drawable* fussballfeld = new Drawable(new TriangleMesh(QString("./../models/fussballfeld.obj")));
+    c = fussballfeld->GetProperty<Texture>();
+    c->LoadPicture(QString("./../textures/fussballfeldtexture.jpg"));
+
+    Shader* s = new Shader(path + QString("/shader/texture.vert"), path + QString("/shader/texture.frag"));
+    tor->setShader(s);
+    fussball->setShader(s);
+    fussballfeld->setShader(s);
+
+    torPosition->AddChild(tor);
+    fussballPosition->AddChild(fussball);
+
+    sceneRoot->AddChild(fussballfeld);
+    sceneRoot->AddChild(torPosition);
+    sceneRoot->AddChild(fussballPosition);
+
+    //sceneRoot->AddChild(centerScene);
+    return sceneRoot;
 }
