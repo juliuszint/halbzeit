@@ -24,7 +24,13 @@ LIBS += $${SGFRAMEWORKPATH}/libSGFramework.a
 DEFINES += SRCDIR=\\\"$${_PRO_FILE_PWD_}\\\"
 
 SOURCES += \
-    myscene.cpp
+    myscene.cpp \
+    fussballstadionscene.cpp
 
-FORMS += \
-    dockwidget.ui
+FORMS +=
+
+HEADERS += \
+    fussballstadionscene.h
+
+RESOURCES += \
+    resources.qrc

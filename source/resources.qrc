@@ -1,0 +1,9 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource>
+        <file alias="fussballfeldtexture">../textures/fussballfeldtexture.jpg</file>
+        <file alias="fussballtexture">../textures/fussballtexture.png</file>
+        <file alias="tortexture">../textures/tortexture.png</file>
+    </qresource>
+</RCC>
+
