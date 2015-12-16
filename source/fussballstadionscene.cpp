@@ -89,7 +89,6 @@ void FussballStadionScene::Initialize()
     this->fussballFeldPhysicObject->setConstructionInfo(fussballFeldConstructionInfo);
     this->fussballFeldPhysicObject->registerPhysicObject();
 
-
     Shader* s = new Shader(path + QString("/shader/texture.vert"), path + QString("/shader/texture.frag"));
     this->tor->setShader(s);
     this->fussball->setShader(s);

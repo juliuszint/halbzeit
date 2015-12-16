@@ -24,13 +24,14 @@ LIBS += $${SGFRAMEWORKPATH}/libSGFramework.a
 DEFINES += SRCDIR=\\\"$${_PRO_FILE_PWD_}\\\"
 
 SOURCES += \
-    myscene.cpp \
-    fussballstadionscene.cpp
+    fussballstadionscene.cpp \
+    halbzeitgame.cpp
 
 FORMS +=
 
 HEADERS += \
-    fussballstadionscene.h
+    fussballstadionscene.h \
+    halbzeitgame.h
 
 RESOURCES += \
     resources.qrc
