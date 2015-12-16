@@ -15,7 +15,7 @@ FussballStadionScene::FussballStadionScene()
 
     this->tor = NULL;
     this->torTransformation = NULL;
-    this->torPhysicObject = NULL;
+    this->torPhysicObjectBack = NULL;
 
     this->physicEngineSlot = -1;
     this->physicEngine = NULL;
@@ -43,6 +43,8 @@ void FussballStadionScene::Initialize()
     this->physicEngineSlot = PhysicEngineManager::createNewPhysicEngineSlot(PhysicEngineName::BulletPhysicsLibrary);
     this->physicEngine = PhysicEngineManager::getPhysicEngineBySlot(this->physicEngineSlot);
 
+    // ------------------------------------- tor --------------------------------------
+
     this->tor = new Drawable(new TriangleMesh(QString("./../models/fussballtor.obj")));
     this->tor->setTransparent(true);
     texture = tor->GetProperty<Texture>();
@@ -50,6 +52,59 @@ void FussballStadionScene::Initialize()
 
     this->torTransformation = new Transformation();
     this->torTransformation->Translate(0, -.01, -43.7);
+
+    this->torCollisionPlaneBack = new Drawable(new SimplePlane(6, 4));
+    this->torCollisionPlaneBack->I_setStaticGeometry(true);
+
+    this->torCollisionPlaneLeft = new Drawable(new SimplePlane(2.3, 4));
+    this->torCollisionPlaneLeft->I_setStaticGeometry(true);
+
+    this->torCollisionPlaneRight = new Drawable(new SimplePlane(2.3, 4));
+    this->torCollisionPlaneRight->I_setStaticGeometry(true);
+
+    this->torCollisionMeshTransformationBack = new Transformation();
+    this->torCollisionMeshTransformationBack->Translate(0, 0, -.9);
+    this->torCollisionMeshTransformationBack->AddChild(this->torCollisionPlaneBack);
+
+    this->torCollisionMeshTransformationLeft = new Transformation();
+    this->torCollisionMeshTransformationLeft->Translate(-3.1, 0, 0);
+    this->torCollisionMeshTransformationLeft->Rotate(90.0f, 0.0f, 1.0f, 0.0f);
+    this->torCollisionMeshTransformationLeft->AddChild(this->torCollisionPlaneLeft);
+
+    this->torCollisionMeshTransformationRight = new Transformation();
+    this->torCollisionMeshTransformationRight->Translate(3.1, 0, 0);
+    this->torCollisionMeshTransformationRight->Rotate(90.0f, 0.0f, 1.0f, 0.0f);
+    this->torCollisionMeshTransformationRight->AddChild(this->torCollisionPlaneRight);
+
+    this->torTransformation->AddChild(this->torCollisionMeshTransformationBack);
+    this->torTransformation->AddChild(this->torCollisionMeshTransformationLeft);
+    this->torTransformation->AddChild(this->torCollisionMeshTransformationRight);
+
+    this->torPhysicObjectBack = physicEngine->createNewPhysicObject(this->torCollisionPlaneBack);
+    this->torPhysicObjectLeft = physicEngine->createNewPhysicObject(this->torCollisionPlaneLeft);
+    this->torPhysicObjectRight = physicEngine->createNewPhysicObject(this->torCollisionPlaneRight);
+
+    PhysicObjectConstructionInfo* torConstructionInfoBack = new PhysicObjectConstructionInfo();
+    torConstructionInfoBack->setCollisionHull(CollisionHull::BoxAABB); //Automatische generierung einer Box aus den Vertexpunkten
+    torConstructionInfoBack->setRestitution(.8);
+
+    PhysicObjectConstructionInfo* torConstructionInfoLeft = new PhysicObjectConstructionInfo();
+    torConstructionInfoLeft->setCollisionHull(CollisionHull::BoxAABB); //Automatische generierung einer Box aus den Vertexpunkten
+    torConstructionInfoLeft->setRestitution(.8);
+
+    PhysicObjectConstructionInfo* torConstructionInfoRight = new PhysicObjectConstructionInfo();
+    torConstructionInfoRight->setCollisionHull(CollisionHull::BoxAABB); //Automatische generierung einer Box aus den Vertexpunkten
+    torConstructionInfoRight->setRestitution(.8);
+
+    this->torPhysicObjectBack->setConstructionInfo(torConstructionInfoBack);
+    this->torPhysicObjectBack->registerPhysicObject();
+
+    this->torPhysicObjectLeft->setConstructionInfo(torConstructionInfoLeft);
+    this->torPhysicObjectLeft->registerPhysicObject();
+
+    this->torPhysicObjectRight->setConstructionInfo(torConstructionInfoRight);
+    this->torPhysicObjectRight->registerPhysicObject();
+
 
     // ------------------------------------- fussball --------------------------------------
 
@@ -72,7 +127,7 @@ void FussballStadionScene::Initialize()
     physicObjectConstructionInfo->setLocalInertiaPoint(QVector3D(0.f,0.f,0.f));    //Schwerpunkt des Objektes angeben, Standardwert (0,0,0)
     physicObjectConstructionInfo->setMass(2.f);                                    //Gewicht des Körpers bestimmen, sollte nicht zu groß gewählt werden
     physicObjectConstructionInfo->setMidpointTransformation(QMatrix4x4(1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1)); //Mittelpunkttransformation angeben falls Geometrie in seinem Koordinatensystem verschoben liegt
-    physicObjectConstructionInfo->setRestitution(.3f);                            //Elastizität des Körpers bestimmen, von 0 bis 1 definiert
+    physicObjectConstructionInfo->setRestitution(.1f);                            //Elastizität des Körpers bestimmen, von 0 bis 1 definiert
     physicObjectConstructionInfo->setRollingFriction(0.2f);                        //Rollwiderstand vorallem bei Kugeln angeben
 
 

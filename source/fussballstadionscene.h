@@ -31,9 +31,18 @@ private:
     PhysicObject* fussballPhysicObject;
     Transformation* fussballTransformation;
 
+    // Todo (julius): sollte man eigentlich mal noch in einen TorNode auslagern
     Drawable* tor;
-    PhysicObject* torPhysicObject;
+    Drawable* torCollisionPlaneBack;
+    Drawable* torCollisionPlaneLeft;
+    Drawable* torCollisionPlaneRight;
+    PhysicObject* torPhysicObjectBack;
+    PhysicObject* torPhysicObjectLeft;
+    PhysicObject* torPhysicObjectRight;
     Transformation* torTransformation;
+    Transformation* torCollisionMeshTransformationBack;
+    Transformation* torCollisionMeshTransformationLeft;
+    Transformation* torCollisionMeshTransformationRight;
 
 public:
     FussballStadionScene();
