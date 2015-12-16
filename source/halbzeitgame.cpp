@@ -16,7 +16,12 @@ void HalbzeitGame::Initialize()
     this->scene = new FussballStadionScene();
     this->scene->Initialize();
 
-    this->sceneHandle = this->sceneManager->addScene(this->scene->GetRootNode());
+    this->inputProcessor = new Inputprocessor(this->scene);
+
+    Node* composite = new Node();
+    composite->AddChild(this->scene->GetRootNode());
+    composite->AddChild(this->inputProcessor);
+    this->sceneHandle = this->sceneManager->addScene(composite);
     this->screenRenderer = new ScreenRenderer(this->renderingContextHandle, this->sceneHandle);
 
     //Vorsicht: Die Szene muss initialisiert sein, bevor das Fenster verändert wird (Fullscreen)

@@ -7,10 +7,12 @@
 #include "renderingcontext.h"
 #include "scenemanager.h"
 #include "screenrenderer.h"
+#include "inputprocessor.h"
 
 class HalbzeitGame
 {
 private:
+    Inputprocessor* inputProcessor;
     FussballStadionScene * scene;
     unsigned int sceneHandle;
 

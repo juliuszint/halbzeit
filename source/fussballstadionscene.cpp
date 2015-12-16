@@ -27,6 +27,12 @@ Node* FussballStadionScene::GetRootNode()
     return this->root;
 }
 
+void FussballStadionScene::DoStuff()
+{
+    //this->fussballPhysicObject->setAngularVelocity(QVector3D(-20, 0 ,0));
+    this->fussballPhysicObject->setLinearVelocity(QVector3D(0, 0, -10));
+}
+
 void FussballStadionScene::Initialize()
 {
     QString path(SRCDIR);

@@ -25,13 +25,15 @@ DEFINES += SRCDIR=\\\"$${_PRO_FILE_PWD_}\\\"
 
 SOURCES += \
     fussballstadionscene.cpp \
-    halbzeitgame.cpp
+    halbzeitgame.cpp \
+    inputprocessor.cpp
 
 FORMS +=
 
 HEADERS += \
     fussballstadionscene.h \
-    halbzeitgame.h
+    halbzeitgame.h \
+    inputprocessor.h
 
 RESOURCES += \
     resources.qrc

@@ -41,6 +41,8 @@ public:
     void Initialize();
 
     Node * GetRootNode();
+
+    void DoStuff();
 };
 
 #endif // FUSSBALLSTADIONSCENE_H
