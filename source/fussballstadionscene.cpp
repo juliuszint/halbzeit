@@ -5,7 +5,8 @@ FussballStadionScene::FussballStadionScene()
     this->initialized = false;
 
     this->fussballFeld = NULL;
-    this->fussballFeldTransformation = NULL;
+    this->fussballFeldCollisionMesh = NULL;
+    this->fussballFeldCollisionMeshTransformation = NULL;
     this->fussballFeldPhysicObject = NULL;
 
     this->fussball = NULL;
@@ -47,11 +48,12 @@ void FussballStadionScene::Initialize()
     // ------------------------------------- fussball --------------------------------------
 
     this->fussball = new Drawable(new TriangleMesh(QString("./../models/fussball.obj")));
+    //this->fussball = new Drawable(new SimpleSphere(.5f));
     texture = this->fussball->GetProperty<Texture>();
     texture->LoadPicture(QString("./../textures/fussballtexture.png"));
 
     this->fussballTransformation = new Transformation();
-    this->fussballTransformation->Translate(0, 2, -31.3);
+    this->fussballTransformation->Translate(0, 8, -31.3);
 
     this->fussballPhysicObject = physicEngine->createNewPhysicObject(fussball);
 
@@ -59,14 +61,12 @@ void FussballStadionScene::Initialize()
     //für jede Eigenschaft gibt es einen Standardwert, das Objekt wird später automatisch gelöscht
     PhysicObjectConstructionInfo* physicObjectConstructionInfo = new PhysicObjectConstructionInfo();
     //Optionale veränderung der Informationen
-    physicObjectConstructionInfo->setBoxHalfExtends(QVector3D(0.5f,0.5f,0.5f));    //Ausdehnung des Würfels in halber länge angeben
-    physicObjectConstructionInfo->setCcdActivation(true);                          //durchdringen durch andere Objekte Abfangen, benötigt mehr Rechenzeit
     physicObjectConstructionInfo->setCollisionHull(CollisionHull::SphereRadius);   //Form des Hüllkörpers festlegen
-    physicObjectConstructionInfo->setFriction(0.5f);                               //Reibung zwischen 0 und 1 angeben, 0 keine reibung 1 maximal
+    physicObjectConstructionInfo->setSphereRadius(.2f);                            //Radius der Sphere auf 0.5 setzen
     physicObjectConstructionInfo->setLocalInertiaPoint(QVector3D(0.f,0.f,0.f));    //Schwerpunkt des Objektes angeben, Standardwert (0,0,0)
     physicObjectConstructionInfo->setMass(2.f);                                    //Gewicht des Körpers bestimmen, sollte nicht zu groß gewählt werden
     physicObjectConstructionInfo->setMidpointTransformation(QMatrix4x4(1,0,0,0,  0,1,0,0,  0,0,1,0,  0,0,0,1)); //Mittelpunkttransformation angeben falls Geometrie in seinem Koordinatensystem verschoben liegt
-    physicObjectConstructionInfo->setRestitution(0.1f);                            //Elastizität des Körpers bestimmen, von 0 bis 1 definiert
+    physicObjectConstructionInfo->setRestitution(.3f);                            //Elastizität des Körpers bestimmen, von 0 bis 1 definiert
     physicObjectConstructionInfo->setRollingFriction(0.2f);                        //Rollwiderstand vorallem bei Kugeln angeben
 
 
@@ -76,15 +76,21 @@ void FussballStadionScene::Initialize()
     // ------------------------------------- fussball feld --------------------------------------
 
     this->fussballFeld = new Drawable(new TriangleMesh(QString("./../models/fussballfeld.obj")));
+    this->fussballFeldCollisionMesh = new Drawable(new SimplePlane(200.0f));
+
     texture = this->fussballFeld->GetProperty<Texture>();
     texture->LoadPicture(QString("./../textures/fussballfeldtexture.jpg"));
-    this->fussballFeld->I_setStaticGeometry(true);
-    this->fussballFeldTransformation = new Transformation();
 
-    this->fussballFeldPhysicObject = physicEngine->createNewPhysicObject(this->fussballFeld);
+    this->fussballFeldCollisionMesh->I_setStaticGeometry(true);
+    this->fussballFeldCollisionMeshTransformation = new Transformation();
+    this->fussballFeldCollisionMeshTransformation->Translate(0.0, -0.01, 0.0);
+    this->fussballFeldCollisionMeshTransformation->Rotate(-90.f,1.f,0.f,0.f);
+
+    this->fussballFeldPhysicObject = physicEngine->createNewPhysicObject(this->fussballFeldCollisionMesh);
 
     PhysicObjectConstructionInfo* fussballFeldConstructionInfo = new PhysicObjectConstructionInfo();
     fussballFeldConstructionInfo->setCollisionHull(CollisionHull::BoxAABB); //Automatische generierung einer Box aus den Vertexpunkten
+
 
     this->fussballFeldPhysicObject->setConstructionInfo(fussballFeldConstructionInfo);
     this->fussballFeldPhysicObject->registerPhysicObject();
@@ -96,10 +102,11 @@ void FussballStadionScene::Initialize()
 
     this->torTransformation->AddChild(this->tor);
     this->fussballTransformation->AddChild(this->fussball);
-    this->fussballFeldTransformation->AddChild(this->fussballFeld);
+    this->fussballFeldCollisionMeshTransformation->AddChild(this->fussballFeldCollisionMesh);
 
     this->root->AddChild(this->torTransformation);
-    this->root->AddChild(this->fussballFeldTransformation);
+    this->root->AddChild(this->fussballFeld);
+    this->root->AddChild(this->fussballFeldCollisionMeshTransformation);
     this->root->AddChild(this->fussballTransformation);
 }
 

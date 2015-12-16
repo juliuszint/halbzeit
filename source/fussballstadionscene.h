@@ -7,6 +7,9 @@
 #include "transformation.h"
 #include "texture.h"
 #include "trianglemesh.h"
+#include "simpleplane.h"
+#include "simplesphere.h"
+#include "simplecube.h"
 
 class FussballStadionScene
 {
@@ -17,9 +20,12 @@ private:
     PhysicEngine* physicEngine;
     int physicEngineSlot;
 
+    // Note (julius): fussballfeld collisionmesh gibts weil iwie die uv maps abgefucked
+    // waren sobald man das eigentliche feld als physic object macht
     Drawable* fussballFeld;
+    Drawable* fussballFeldCollisionMesh;
     PhysicObject* fussballFeldPhysicObject;
-    Transformation* fussballFeldTransformation;
+    Transformation* fussballFeldCollisionMeshTransformation;
 
     Drawable* fussball;
     PhysicObject* fussballPhysicObject;
