@@ -49,26 +49,22 @@ void PrintMatrix(QMatrix4x4 m)
 
 void FussballStadionScene::ResetScene()
 {
-    //this->fussballPhysicObject->setLinearVelocity(QVector3D(0, 0, 0));
-    //this->fussballPhysicObject->setAngularVelocity(QVector3D(0, 0, 0));
+    this->fussballPhysicObject->setLinearVelocity(QVector3D(0, 0, 0));
+    this->fussballPhysicObject->setAngularVelocity(QVector3D(0, 0, 0));
 
-    //this->fussballTransformation->ResetTrafo();
-    QMatrix4x4 m = this->fussballTransformation->getMMatrix();
+    QMatrix4x4 m = this->fussballPhysicObject->getEngineModelMatrix();
+
     qDebug("before manipulation");
     PrintMatrix(m);
-    m.data()[12] = 4.0f;
-    m.data()[13] = 4.0f;
-    m.data()[14] = 4.0f;
+
+    m.data()[12] = this->fussballRootPosition.x();
+    m.data()[13] = this->fussballRootPosition.y();
+    m.data()[14] = this->fussballRootPosition.z();
+
     qDebug("after manipulation");
     PrintMatrix(m);
-    this->fussballTransformation->setMMatrix(m);
+    this->fussballPhysicObject->setEngineModelMatrix(m);
 
-    //m.setToIdentity();
-    //m.translate(0, 4, -31);
-    //this->fussballTransformation->getMMatrix()
-    //this->fussballTransformation->Translate(0, 4, -31);
-
-    //this->fussballPhysicObject->addToPhysicEngine();
     qDebug( "Resettings Scene" );
 }
 
