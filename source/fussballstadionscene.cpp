@@ -27,11 +27,51 @@ Node* FussballStadionScene::GetRootNode()
     return this->root;
 }
 
-void FussballStadionScene::DoStuff()
+void FussballStadionScene::ShootLeft()
 {
     //this->fussballPhysicObject->setAngularVelocity(QVector3D(-20, 0 ,0));
-    this->fussballPhysicObject->setLinearVelocity(QVector3D(0, 0, -10));
+    this->fussballPhysicObject->setLinearVelocity(QVector3D(-3.2, 0, -10));
 }
+void FussballStadionScene::ShootRight()
+{
+    //this->fussballPhysicObject->setAngularVelocity(QVector3D(-20, 0 ,0));
+    this->fussballPhysicObject->setLinearVelocity(QVector3D(3.2, 0, -10));
+}
+
+void PrintMatrix(QMatrix4x4 m)
+{
+    for(int row = 0; row < 4; row ++)
+    {
+        QVector4D v = m.row(row);
+        qDebug("%f, %f, %f, %f", v.x(), v.y(), v.z(), v.w());
+    }
+}
+
+void FussballStadionScene::ResetScene()
+{
+    //this->fussballPhysicObject->setLinearVelocity(QVector3D(0, 0, 0));
+    //this->fussballPhysicObject->setAngularVelocity(QVector3D(0, 0, 0));
+
+    //this->fussballTransformation->ResetTrafo();
+    QMatrix4x4 m = this->fussballTransformation->getMMatrix();
+    qDebug("before manipulation");
+    PrintMatrix(m);
+    m.data()[12] = 4.0f;
+    m.data()[13] = 4.0f;
+    m.data()[14] = 4.0f;
+    qDebug("after manipulation");
+    PrintMatrix(m);
+    this->fussballTransformation->setMMatrix(m);
+
+    //m.setToIdentity();
+    //m.translate(0, 4, -31);
+    //this->fussballTransformation->getMMatrix()
+    //this->fussballTransformation->Translate(0, 4, -31);
+
+    //this->fussballPhysicObject->addToPhysicEngine();
+    qDebug( "Resettings Scene" );
+}
+
 
 void FussballStadionScene::Initialize()
 {
@@ -114,9 +154,13 @@ void FussballStadionScene::Initialize()
     texture->LoadPicture(QString("./../textures/fussballtexture.png"));
 
     this->fussballTransformation = new Transformation();
-    this->fussballTransformation->Translate(0, 8, -31.3);
+    this->fussballRootPosition.setX(0);
+    this->fussballRootPosition.setY(4);
+    this->fussballRootPosition.setZ(-31.3);
+    this->fussballTransformation->Translate(this->fussballRootPosition.x(), this->fussballRootPosition.y(), this->fussballRootPosition.z());
 
     this->fussballPhysicObject = physicEngine->createNewPhysicObject(fussball);
+    this->fussballPhysicObject->setAlwaysActive(false);
 
     //Ein PhysicObjectConstructionInfo Objekt erzeugen, welches die Eigenschaften eines PhysicObjects festlegt,
     //für jede Eigenschaft gibt es einen Standardwert, das Objekt wird später automatisch gelöscht

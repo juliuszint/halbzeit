@@ -30,6 +30,7 @@ private:
     Drawable* fussball;
     PhysicObject* fussballPhysicObject;
     Transformation* fussballTransformation;
+    QVector3D fussballRootPosition;
 
     // Todo (julius): sollte man eigentlich mal noch in einen TorNode auslagern
     Drawable* tor;
@@ -51,7 +52,10 @@ public:
 
     Node * GetRootNode();
 
-    void DoStuff();
+    void ShootLeft();
+    void ShootRight();
+
+    void ResetScene();
 };
 
 #endif // FUSSBALLSTADIONSCENE_H
