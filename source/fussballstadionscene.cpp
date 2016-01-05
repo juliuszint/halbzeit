@@ -254,6 +254,16 @@ void FussballStadionScene::Initialize()
     color = this->buehneHolzsitze->GetProperty<Color>();
     color->SetValue(.8, .4, .1, 1.0);
 
+    // ------------------------------------- skybox --------------------------------------
+
+    Shader *sCube = new Shader("://shader/skybox.vert", "://shader/texturecube.frag");
+    Texture *te = new Texture(path + QString("/../textures/cubemap_miramar"));
+    this->skybox = new Drawable(new SimpleCube(100));
+    this->skybox->SetProperty<Texture>(te);
+    this->skybox->setShader(sCube);
+
+    this->root->AddChild(this->skybox);
+
     this->root->AddChild(this->buehneBetonTransformation);
     this->root->AddChild(this->buehneHolzTransformation);
 

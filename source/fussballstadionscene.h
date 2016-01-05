@@ -54,6 +54,8 @@ private:
     Transformation* buehneBetonTransformation;
     Transformation* buehneHolzTransformation;
 
+    Drawable* skybox;
+
 public:
     FussballStadionScene();
 

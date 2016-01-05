@@ -5,6 +5,10 @@
         <file alias="fussballtexture">../textures/fussballtexture.png</file>
         <file alias="tortexture">../textures/tortexture.png</file>
 
+	<file>shader/skybox.vert</file> 
+	<file>shader/texturecube.vert</file> 
+	<file>shader/texturecube.frag</file> 
+
 	<file>shader/texture.vert</file> 
 	<file>shader/texture.frag</file> 
 	<file>shader/PhongVL.vert</file> 
