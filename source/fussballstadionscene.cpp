@@ -219,10 +219,10 @@ void FussballStadionScene::Initialize()
     this->fussballFeldPhysicObject->setConstructionInfo(fussballFeldConstructionInfo);
     this->fussballFeldPhysicObject->registerPhysicObject();
 
-    Shader* s = new Shader(QString("://shader/texture.vert"), QString("://shader/texture.frag"));
-    this->tor->setShader(s);
-    this->fussball->setShader(s);
-    this->fussballFeld->setShader(s);
+    Shader* textureShader = new Shader(QString("://shader/texture.vert"), QString("://shader/texture.frag"));
+    this->tor->setShader(textureShader);
+    this->fussball->setShader(textureShader);
+    this->fussballFeld->setShader(textureShader);
 
     this->torTransformation->AddChild(this->tor);
     this->fussballTransformation->AddChild(this->fussball);
@@ -270,9 +270,30 @@ void FussballStadionScene::Initialize()
 
     // ------------------------------------- advertising --------------------------------------
 
+    QString addTextures[10];
+    addTextures[0] = QString("./../textures/adderhmann.jpg");
+    addTextures[1] = QString("./../textures/adderhmann.jpg");
+    addTextures[2] = QString("./../textures/addmcdonalds.jpg");
+    addTextures[3] = QString("./../textures/addmcdonalds.jpg");
+    addTextures[4] = QString("./../textures/addpost.jpg");
+    addTextures[5] = QString("./../textures/addpost.jpg");
+    addTextures[6] = QString("./../textures/addadidas.jpg");
+    addTextures[7] = QString("./../textures/addadidas.jpg");
+    addTextures[8] = QString("./../textures/addrothaus.jpg");
+    addTextures[9] = QString("./../textures/addrothaus.jpg");
+
     for(int i = 0; i < 10; i++)
     {
+	    this->advertising[i] = new Drawable(new SimplePlane(5, 1.0));
+	    this->advertising[i]->setShader(textureShader);
+	    this->advertisingTransformations[i] = new Transformation();
+            this->advertisingTransformations[i]->Translate(-20.0 + (i * 5.2), .5, -47);
+	    this->advertisingTransformations[i]->AddChild(this->advertising[i]); 
 
+	    texture = this->advertising[i]->GetProperty<Texture>();
+	    texture->LoadPicture(addTextures[i]);
+
+	    this->root->AddChild(this->advertisingTransformations[i]);
     }
 
     // ------------------------------------- skybox --------------------------------------
