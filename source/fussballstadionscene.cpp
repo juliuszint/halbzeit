@@ -231,28 +231,41 @@ void FussballStadionScene::Initialize()
     this->flutlicht->setAmbient(0.6, 0.6, 0.6, 1.0);
     this->flutlicht->turnOn();
 
+    Shader * phong = new Shader(QString("://shader/PhongVL.vert"), QString("://shader/PassThrough.frag"));
     this->buehneBeton = new Drawable(new TriangleMesh(QString("./../models/RestBuhne.obj")));
     this->buehneBetonTransformation = new Transformation();
     this->buehneBetonTransformation->AddChild(this->buehneBeton);
     this->buehneBetonTransformation->Translate(5.0, .5, -24.0);
-    this->buehneBeton->setShader(new Shader(QString("://shader/PhongVL.vert"), QString("://shader/PassThrough.frag")));
-
-    color = this->buehneBeton->GetProperty<Color>();
-    color->SetValue(.3, .3, .3, 1.0);
+    this->buehneBeton->setShader(phong);
 
     material = this->buehneBeton->GetProperty<Material>();
-    material->setDiffuse(0.4, .5, .2, 1.);
-    material->setAmbient(0.2, .3, .1, 1.);
-    material->setSpecular(0.8, .8, .8, 1.);
-    material->setShininess(1.);
+    material->setDiffuse(0.25, .25, .25, 1.);
+    material->setAmbient(0.8, .8, .8, 1.);
+    material->setSpecular(0.5, .5, .5, 1.);
+    material->setShininess(.7);
 
     this->buehneHolzsitze = new Drawable(new TriangleMesh(QString("./../models/HolzSitze.obj")));
+    this->buehneHolzsitze->setShader(phong);
+
+    material = this->buehneHolzsitze->GetProperty<Material>();
+    material->setDiffuse(.0, .4, .1, 1.);
+    material->setAmbient(.0, .4, .1, 1.);
+    material->setSpecular(.5, .5, .5, 1.);
+    material->setShininess(.7);
+
     this->buehneHolzTransformation = new Transformation();
     this->buehneHolzTransformation->AddChild(this->buehneHolzsitze);
     this->buehneHolzTransformation->Translate(5.0, 0.5, -24.0);
 
     color = this->buehneHolzsitze->GetProperty<Color>();
     color->SetValue(.8, .4, .1, 1.0);
+
+    // ------------------------------------- advertising --------------------------------------
+
+    for(int i = 0; i < 10; i++)
+    {
+
+    }
 
     // ------------------------------------- skybox --------------------------------------
 

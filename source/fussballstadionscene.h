@@ -56,6 +56,9 @@ private:
 
     Drawable* skybox;
 
+    Drawable* advertising[10];
+    Transformation* advertisingTransformations[10];
+
 public:
     FussballStadionScene();
 
