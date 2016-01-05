@@ -246,14 +246,13 @@ void FussballStadionScene::Initialize()
     material->setSpecular(0.8, .8, .8, 1.);
     material->setShininess(1.);
 
-
     this->buehneHolzsitze = new Drawable(new TriangleMesh(QString("./../models/HolzSitze.obj")));
     this->buehneHolzTransformation = new Transformation();
     this->buehneHolzTransformation->AddChild(this->buehneHolzsitze);
     this->buehneHolzTransformation->Translate(5.0, 0.5, -24.0);
 
     color = this->buehneHolzsitze->GetProperty<Color>();
-    color->SetValue(1.0, 1.0, 1.0, 1.0);
+    color->SetValue(.8, .4, .1, 1.0);
 
     this->root->AddChild(this->buehneBetonTransformation);
     this->root->AddChild(this->buehneHolzTransformation);
