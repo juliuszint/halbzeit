@@ -1,6 +1,7 @@
 #ifndef FUSSBALLSTADIONSCENE_H
 #define FUSSBALLSTADIONSCENE_H
 
+#include "color.h"
 #include "node.h"
 #include "physicengine.h"
 #include "drawable.h"
@@ -10,6 +11,8 @@
 #include "simpleplane.h"
 #include "simplesphere.h"
 #include "simplecube.h"
+#include "material.h"
+#include "light.h"
 
 class FussballStadionScene
 {
@@ -44,6 +47,12 @@ private:
     Transformation* torCollisionMeshTransformationBack;
     Transformation* torCollisionMeshTransformationLeft;
     Transformation* torCollisionMeshTransformationRight;
+
+    Light* flutlicht;
+    Drawable* buehneBeton;
+    Drawable* buehneHolzsitze;
+    Transformation* buehneBetonTransformation;
+    Transformation* buehneHolzTransformation;
 
 public:
     FussballStadionScene();

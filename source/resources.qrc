@@ -1,9 +1,19 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
-    <qresource>
+    <qresource prefix="/">
         <file alias="fussballfeldtexture">../textures/fussballfeldtexture.jpg</file>
         <file alias="fussballtexture">../textures/fussballtexture.png</file>
         <file alias="tortexture">../textures/tortexture.png</file>
+
+	<file>shader/texture.vert</file> 
+	<file>shader/texture.frag</file> 
+	<file>shader/PhongVL.vert</file> 
+        <file>shader/common.vert.inc</file> 
+        <file>shader/commonlight.vert.inc</file> 
+        <file>shader/commonlightmatdefs.inc</file> 
+        <file>shader/commonlightmodels.inc</file> 
+        <file>shader/LambertVL.vert</file> 
+        <file>shader/PassThrough.frag</file>
     </qresource>
 </RCC>
 

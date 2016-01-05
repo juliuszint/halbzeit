@@ -75,6 +75,8 @@ void FussballStadionScene::Initialize()
     this->root = new Node();
 
     Texture* texture = NULL;
+    Color* color = NULL;
+    Material* material = NULL;
     //Physic Engine Erzeugen und einen Pointer auf Instanz holen
     this->physicEngineSlot = PhysicEngineManager::createNewPhysicEngineSlot(PhysicEngineName::BulletPhysicsLibrary);
     this->physicEngine = PhysicEngineManager::getPhysicEngineBySlot(this->physicEngineSlot);
@@ -91,12 +93,21 @@ void FussballStadionScene::Initialize()
 
     this->torCollisionPlaneBack = new Drawable(new SimplePlane(6, 4));
     this->torCollisionPlaneBack->I_setStaticGeometry(true);
+    this->torCollisionPlaneBack->setTransparent(true);
+    color = this->torCollisionPlaneBack->GetProperty<Color>();
+    color->SetValue(1.0, 1.0, 1.0, 0.0);
 
     this->torCollisionPlaneLeft = new Drawable(new SimplePlane(2.3, 4));
     this->torCollisionPlaneLeft->I_setStaticGeometry(true);
+    this->torCollisionPlaneLeft->setTransparent(true);
+    color = this->torCollisionPlaneLeft->GetProperty<Color>();
+    color->SetValue(1.0, 1.0, 1.0, 0.0);
 
     this->torCollisionPlaneRight = new Drawable(new SimplePlane(2.3, 4));
     this->torCollisionPlaneRight->I_setStaticGeometry(true);
+    this->torCollisionPlaneRight->setTransparent(true);
+    color = this->torCollisionPlaneRight->GetProperty<Color>();
+    color->SetValue(1.0, 1.0, 1.0, 0.0);
 
     this->torCollisionMeshTransformationBack = new Transformation();
     this->torCollisionMeshTransformationBack->Translate(0, 0, -.9);
@@ -178,6 +189,10 @@ void FussballStadionScene::Initialize()
 
     this->fussballFeld = new Drawable(new TriangleMesh(QString("./../models/fussballfeld.obj")));
     this->fussballFeldCollisionMesh = new Drawable(new SimplePlane(200.0f));
+    this->fussballFeldCollisionMesh->setTransparent(true);
+
+    color = fussballFeldCollisionMesh->GetProperty<Color>();
+    color->SetValue(1.0, 1.0, 1.0, 0.0);
 
     texture = this->fussballFeld->GetProperty<Texture>();
     texture->LoadPicture(QString("./../textures/fussballfeldtexture.jpg"));
@@ -196,7 +211,7 @@ void FussballStadionScene::Initialize()
     this->fussballFeldPhysicObject->setConstructionInfo(fussballFeldConstructionInfo);
     this->fussballFeldPhysicObject->registerPhysicObject();
 
-    Shader* s = new Shader(path + QString("/shader/texture.vert"), path + QString("/shader/texture.frag"));
+    Shader* s = new Shader(QString("://shader/texture.vert"), QString("://shader/texture.frag"));
     this->tor->setShader(s);
     this->fussball->setShader(s);
     this->fussballFeld->setShader(s);
@@ -205,9 +220,49 @@ void FussballStadionScene::Initialize()
     this->fussballTransformation->AddChild(this->fussball);
     this->fussballFeldCollisionMeshTransformation->AddChild(this->fussballFeldCollisionMesh);
 
+    // ------------------------------------- bühne --------------------------------------
+
+    this->flutlicht = new Light();
+    this->flutlicht->setPosition(0.0, 30.0, -18.0, 1.0);
+    this->flutlicht->setSpotDirection(0.0, 0.0, -1.0);
+    this->flutlicht->setCutOffAngle(180.0);
+    this->flutlicht->setDiffuse(0.7, 0.7, 0.7, 1.0);
+    this->flutlicht->setSpecular(0.6, 0.6, 0.6, 1.0);
+    this->flutlicht->setAmbient(0.6, 0.6, 0.6, 1.0);
+    this->flutlicht->turnOn();
+
+    this->buehneBeton = new Drawable(new TriangleMesh(QString("./../models/RestBuhne.obj")));
+    this->buehneBetonTransformation = new Transformation();
+    this->buehneBetonTransformation->AddChild(this->buehneBeton);
+    this->buehneBetonTransformation->Translate(5.0, .5, -24.0);
+    this->buehneBeton->setShader(new Shader(QString("://shader/PhongVL.vert"), QString("://shader/PassThrough.frag")));
+
+    color = this->buehneBeton->GetProperty<Color>();
+    color->SetValue(.3, .3, .3, 1.0);
+
+    material = this->buehneBeton->GetProperty<Material>();
+    material->setDiffuse(0.4, .5, .2, 1.);
+    material->setAmbient(0.2, .3, .1, 1.);
+    material->setSpecular(0.8, .8, .8, 1.);
+    material->setShininess(1.);
+
+
+    this->buehneHolzsitze = new Drawable(new TriangleMesh(QString("./../models/HolzSitze.obj")));
+    this->buehneHolzTransformation = new Transformation();
+    this->buehneHolzTransformation->AddChild(this->buehneHolzsitze);
+    this->buehneHolzTransformation->Translate(5.0, 0.5, -24.0);
+
+    color = this->buehneHolzsitze->GetProperty<Color>();
+    color->SetValue(1.0, 1.0, 1.0, 1.0);
+
+    this->root->AddChild(this->buehneBetonTransformation);
+    this->root->AddChild(this->buehneHolzTransformation);
+
     this->root->AddChild(this->torTransformation);
     this->root->AddChild(this->fussballFeld);
     this->root->AddChild(this->fussballFeldCollisionMeshTransformation);
     this->root->AddChild(this->fussballTransformation);
+    this->flutlicht->AddChild(this->root);
+    this->root = this->flutlicht;
 }
 
