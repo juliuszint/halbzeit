@@ -37,6 +37,7 @@ private:
 
     // Todo (julius): sollte man eigentlich mal noch in einen TorNode auslagern
     Drawable* tor;
+    Drawable* torstangen;
     Drawable* torCollisionPlaneBack;
     Drawable* torCollisionPlaneLeft;
     Drawable* torCollisionPlaneRight;
@@ -44,6 +45,7 @@ private:
     PhysicObject* torPhysicObjectLeft;
     PhysicObject* torPhysicObjectRight;
     Transformation* torTransformation;
+    Transformation* torStangenTransformation;
     Transformation* torCollisionMeshTransformationBack;
     Transformation* torCollisionMeshTransformationLeft;
     Transformation* torCollisionMeshTransformationRight;

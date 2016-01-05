@@ -88,6 +88,14 @@ void FussballStadionScene::Initialize()
     texture = tor->GetProperty<Texture>();
     texture->LoadPicture(QString("./../textures/tortexture.png"));
 
+    this->torstangen = new Drawable(new TriangleMesh(QString("./../models/torstangen.obj")));
+    this->torStangenTransformation = new Transformation();
+    this->torStangenTransformation->AddChild(this->torstangen);
+    this->torStangenTransformation->Translate(0, -.01, -43.0);
+
+    color = this->torstangen->GetProperty<Color>();
+    color->SetValue(0.9, 0.9, 0.9, 1.0);
+
     this->torTransformation = new Transformation();
     this->torTransformation->Translate(0, -.01, -43.7);
 
@@ -280,6 +288,7 @@ void FussballStadionScene::Initialize()
     this->root->AddChild(this->buehneBetonTransformation);
     this->root->AddChild(this->buehneHolzTransformation);
 
+    this->root->AddChild(this->torStangenTransformation);
     this->root->AddChild(this->torTransformation);
     this->root->AddChild(this->fussballFeld);
     this->root->AddChild(this->fussballFeldCollisionMeshTransformation);
